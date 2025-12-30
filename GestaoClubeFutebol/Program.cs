@@ -14,14 +14,16 @@ using ClubeFutebol.Dados.Pessoas;
 using ClubeFutebol.Regras;
 using ClubeFutebol.Exceptions;
 
-namespace ClubeFutebol.App
+namespace GestaoClubeDeFutebol
 {
-    class Program
+    internal class Program
     {
         static int Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
             // ===============================
-            // DADOS
+            // INICIALIZAÇÃO DE DADOS E REGRAS
             // ===============================
             ClubeDados clubeDados = new ClubeDados();
             EquipaDados equipaDados = new EquipaDados();
@@ -29,9 +31,6 @@ namespace ClubeFutebol.App
             TreinadorDados treinadorDados = new TreinadorDados();
             FinancasDados financasDados = new FinancasDados();
 
-            // ===============================
-            // REGRAS
-            // ===============================
             RegrasClube regrasClube = new RegrasClube(clubeDados);
             RegrasEquipa regrasEquipa = new RegrasEquipa(equipaDados);
             RegrasJogador regrasJogador = new RegrasJogador(jogadorDados);
@@ -39,81 +38,53 @@ namespace ClubeFutebol.App
             RegrasFinancas regrasFinancas = new RegrasFinancas(financasDados);
 
             // ===============================
-            // LEITURA DE DADOS
+            // CRIAÇÃO DE CLUBE
             // ===============================
-            regrasClube.LerDados("clubes.dat");
-            regrasEquipa.LerDados("equipas.dat");
-            regrasJogador.LerDados("jogadores.dat");
-            regrasTreinador.LerDados("treinadores.dat");
-            regrasFinancas.LerDados("financas.dat");
-
-            // ===============================
-            // CRIAÇÃO DE ENTIDADES
-            // ===============================
-            Clube clube = new Clube(
-                "FC GOGO",
-                1900,
-                "info@fcgogo.pt",
-                912345678,
-                "Portugal");
-
+            Clube clube = new Clube("FC GOGO", 1900, "info@fcgogo.pt", 912345678, "Portugal");
             bool clubeCriado = regrasClube.CriarClube(clube);
+            Console.WriteLine($"Clube criado: {(clubeCriado ? "OK" : "ERRO")}");
 
-            Equipa equipa = new Equipa(
-                "Sénior",
-                "Primeira Liga",
-                clube.Nome);
-
+            // ===============================
+            // CRIAÇÃO DE EQUIPA
+            // ===============================
+            Equipa equipa = new Equipa("Sénior", "Primeira Liga", clube.Nome);
             bool equipaCriada = regrasEquipa.CriarEquipa(equipa);
+            Console.WriteLine($"Equipa criada: {(equipaCriada ? "OK" : "ERRO")}");
 
-            Jogador jogador = regrasJogador.CriarJogador(
-                10,
-                "Avançado",
-                "João Silva",
-                22,
-                "Portugal",
-                "Masculino",
-                1001,
-                912111222);
-
+            // ===============================
+            // CRIAÇÃO DE TREINADOR
+            // ===============================
             Treinador treinador = regrasTreinador.CriarTreinador(
-                10,
-                "4-3-3",
-                "Carlos Sousa",
-                45,
-                "Portugal",
-                "Masculino",
-                2001,
-                913333444);
+                10, "4-3-3",
+                "João Silva", 45, "Portugal", "M", 1001, 910000000);
 
             bool treinadorAtribuido = regrasEquipa.AtribuirTreinador(equipa, treinador);
+            Console.WriteLine($"Treinador atribuído: {(treinadorAtribuido ? "OK" : "ERRO")}");
+
+            // ===============================
+            // CRIAÇÃO DE JOGADOR
+            // ===============================
+            Jogador jogador = regrasJogador.CriarJogador(
+                10, "Avançado",
+                "Pedro Costa", 25, "Portugal", "M", 2001, 920000000);
+
             bool jogadorAdicionado = regrasEquipa.AdicionarJogador(equipa, jogador);
+            Console.WriteLine($"Jogador adicionado à equipa: {(jogadorAdicionado ? "OK" : "ERRO")}");
 
             // ===============================
-            // FINANÇAS
+            // FINANÇAS + EXCEPTIONS
             // ===============================
-            Financas financas = new Financas(
-                100000,
-                30000,
-                20000);
-
-            bool financasInseridas = regrasFinancas.InserirFinancas(financas);
+            Financas financas = new Financas(100000f, 30000f, 20000f);
+            financasDados.InserirFinancas(financas);
 
             try
             {
-                bool salarioDefinido = regrasFinancas.DefinirSalario(
-                    financas,
-                    jogador,
-                    1500);
-
-                bool jogadorComprado = regrasFinancas.ComprarPessoa(
-                    financas,
-                    jogador,
-                    10000);
+                bool compra = regrasFinancas.ComprarPessoa(financas, jogador, 15000f);
+                Console.WriteLine($"Jogador comprado: {(compra ? "OK" : "ERRO")}");
             }
             catch (DominioException ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"ERRO FINANCEIRO: {ex.Message}");
             }
 
             // ===============================
@@ -125,9 +96,25 @@ namespace ClubeFutebol.App
             regrasTreinador.GuardarDados("treinadores.dat");
             regrasFinancas.GuardarDados("financas.dat");
 
+            Console.WriteLine("Dados guardados com sucesso.");
+
             // ===============================
-            // FIM DA EXECUÇÃO
+            // LER DADOS
             // ===============================
+            regrasClube.LerDados("clubes.dat");
+            regrasEquipa.LerDados("equipas.dat");
+            regrasJogador.LerDados("jogadores.dat");
+            regrasTreinador.LerDados("treinadores.dat");
+            regrasFinancas.LerDados("financas.dat");
+
+            Console.WriteLine("Dados lidos com sucesso.");
+
+            // ===============================
+            // FIM
+            // ===============================
+            Console.WriteLine("\nFim da execução. Pressione qualquer tecla.");
+            Console.ReadKey();
+
             return 0;
         }
     }
