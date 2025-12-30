@@ -1,0 +1,141 @@
+﻿/*
+*	<copyright file="EquipaDados.cs"
+*		Copyright (c) 2025 All Rights Reserved
+*	</copyright>
+* 	<author>a31508goncalobraga</author>
+*	<description></description>
+**/
+
+using System.Collections.Generic;
+using ClubeFutebol.BOO.ClubeEstrutura;
+using ClubeFutebol.BOO.Pessoas;
+using ClubeFutebol.Dados.Interfaces;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
+namespace ClubeFutebol.Dados.ClubeEstrutura
+{
+    public class EquipaDados : InterfaceEquipaDados
+    {
+        #region Atributos
+
+        private readonly Dictionary<Equipa, List<Jogador>> jogadoresPorEquipa;
+
+        #endregion
+
+        #region Construtor
+
+        public EquipaDados()
+        {
+            jogadoresPorEquipa = new Dictionary<Equipa, List<Jogador>>();
+        }
+
+        #endregion
+
+        #region Jogadores da Equipa
+
+        public bool CriarEquipa(Equipa equipa)
+        {
+            jogadoresPorEquipa[equipa] = new List<Jogador>();
+            return true;
+        }
+
+        public bool RemoverEquipa(Equipa equipa)
+        {
+            return jogadoresPorEquipa.Remove(equipa);
+        }
+
+        public bool AdicionarJogador(Equipa equipa, Jogador jogador)
+        {
+            jogadoresPorEquipa[equipa].Add(jogador);
+            return true;
+        }
+
+        public bool RemoverJogador(Equipa equipa, Jogador jogador)
+        {
+            return jogadoresPorEquipa[equipa].Remove(jogador);
+        }
+
+        public IReadOnlyList<Jogador> ObterJogadores(Equipa equipa)
+        {
+            return jogadoresPorEquipa[equipa].AsReadOnly();
+        }
+
+        public int ObterNumeroJogadores(Equipa equipa)
+        {
+            return jogadoresPorEquipa[equipa].Count;
+        }
+
+        #endregion
+
+        #region Treinador
+
+        public bool AtribuirTreinador(Equipa equipa, Treinador treinador)
+        {
+            equipa.TreinadorPrincipal = treinador;
+            return true;
+        }
+
+        public bool RemoverTreinador(Equipa equipa)
+        {
+            equipa.TreinadorPrincipal = null;
+            return true;
+        }
+
+        #endregion
+        public IReadOnlyList<Jogador> ObterJogadoresPorPosicao(Equipa equipa, string posicao)
+        {
+            List<Jogador> resultado = new List<Jogador>();
+
+            foreach (Jogador j in jogadoresPorEquipa[equipa])
+            {
+                if (j.Posicao == posicao)
+                    resultado.Add(j);
+            }
+
+            return resultado.AsReadOnly();
+        }
+
+        public bool GuardarEquipas(string ficheiro)
+        {
+            try
+            {
+                using (FileStream fs = new FileStream(ficheiro, FileMode.Create))
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    bf.Serialize(fs, jogadoresPorEquipa);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public bool LerEquipas(string ficheiro)
+        {
+            if (!File.Exists(ficheiro))
+                return false;
+
+            try
+            {
+                using (FileStream fs = new FileStream(ficheiro, FileMode.Open))
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+
+                    jogadoresPorEquipa.Clear();
+
+                    var dados = (Dictionary<Equipa, List<Jogador>>)bf.Deserialize(fs);
+                    foreach (var d in dados)
+                        jogadoresPorEquipa.Add(d.Key, d.Value);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+    }
+}
