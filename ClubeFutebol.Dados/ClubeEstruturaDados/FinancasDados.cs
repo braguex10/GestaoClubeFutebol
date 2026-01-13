@@ -7,93 +7,77 @@
 **/
 
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using ClubeFutebol.BOO.ClubeEstrutura;
 using ClubeFutebol.BOO.Pessoas;
 using ClubeFutebol.Dados.Interfaces;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-
 
 namespace ClubeFutebol.Dados.ClubeEstrutura
 {
-    public class FinancasDados : InterfaceFinancasDados
+    public class FinancasDados : InterfaceFinancasDados     // armazena os dados financeiros dependentes do clube e de pessoas
     {
         #region Atributos
 
-        private readonly List<Financas> listaFinancas;
-
-        private readonly Dictionary<Financas, Dictionary<Pessoa, float>> salarios;
-        private readonly Dictionary<Financas, Dictionary<Pessoa, float>> valoresMercado;
+        // Salários e valores de mercado associados a cada clube
+        private readonly Dictionary<Clube, Dictionary<Pessoa, float>> salariosPorClube;        // dicionario que contem os salarios de cada pessoa do clube
+        private readonly Dictionary<Clube, Dictionary<Pessoa, float>> valoresMercadoPorClube;  // dicionario que contem os valores de mercado de cada pessoa do clube
 
         #endregion
 
         #region Construtor
 
-        public FinancasDados()
+        public FinancasDados()     // inicializa a estrutura de dados
         {
-            listaFinancas = new List<Financas>();
-            salarios = new Dictionary<Financas, Dictionary<Pessoa, float>>();
-            valoresMercado = new Dictionary<Financas, Dictionary<Pessoa, float>>();
+            salariosPorClube = new Dictionary<Clube, Dictionary<Pessoa, float>>();
+            valoresMercadoPorClube = new Dictionary<Clube, Dictionary<Pessoa, float>>();
         }
 
         #endregion
 
-        #region Gestão Geral
+        #region Inicialização
 
-        public bool InserirFinancas(Financas f)
+        // deve ser chamado quando um clube é criado
+        public void InicializarClube(Clube clube)
         {
-            if (f == null || listaFinancas.Contains(f))
-                return false;
+            if (clube == null)                          // se nao existir clube
+                return;
 
-            listaFinancas.Add(f);
-            salarios[f] = new Dictionary<Pessoa, float>();
-            valoresMercado[f] = new Dictionary<Pessoa, float>();
-            return true;
-        }
+            if (!salariosPorClube.ContainsKey(clube))
+                salariosPorClube[clube] = new Dictionary<Pessoa, float>();
 
-        public bool RemoverFinancas(Financas f)
-        {
-            if (!listaFinancas.Remove(f))
-                return false;
-
-            salarios.Remove(f);
-            valoresMercado.Remove(f);
-            return true;
-        }
-
-        public bool ExisteFinancas(Financas f)
-        {
-            return listaFinancas.Contains(f);
+            if (!valoresMercadoPorClube.ContainsKey(clube))   // cria as estruturas financeiras associadas ao clube
+                valoresMercadoPorClube[clube] = new Dictionary<Pessoa, float>();
         }
 
         #endregion
 
         #region Saldo e Orçamentos
 
-        public bool AtualizarSaldo(Financas f, float valor)
+        public bool AtualizarSaldo(Clube clube, float valor)     // atualiza saldo do clube
         {
-            if (!ExisteFinancas(f))
+            if (clube == null)              // se nao existir clube
                 return false;
 
-            f.SaldoClube = valor;
+            clube.Financas.SaldoClube = valor;           // atribui novo valor ao saldo
             return true;
         }
 
-        public bool AtualizarOrcamentoSalarios(Financas f, float valor)
+        public bool AtualizarOrcamentoSalarios(Clube clube, float valor)   // atualiza orcamentos para salarios
         {
-            if (!ExisteFinancas(f))
+            if (clube == null)              // se nao existir clube
                 return false;
 
-            f.OrcamentoSalarios = valor;
+            clube.Financas.OrcamentoSalarios = valor;    // atribuicao do novo valor
             return true;
         }
 
-        public bool AtualizarOrcamentoTransferencias(Financas f, float valor)
+        public bool AtualizarOrcamentoTransferencias(Clube clube, float valor)     // atualiza orcamento transferencias
         {
-            if (!ExisteFinancas(f))
+            if (clube == null)                // se o clube nao existir
                 return false;
 
-            f.OrcamentoTransferencias = valor;
+            clube.Financas.OrcamentoTransferencias = valor;    // atribuicao do novo valor
             return true;
         }
 
@@ -101,41 +85,41 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
 
         #region Salários
 
-        public bool DefinirSalario(Financas f, Pessoa p, float valor)
+        public bool DefinirSalario(Clube clube, Pessoa pessoa, float valor)    // define salario de uma pessoa do clube
         {
-            if (!ExisteFinancas(f) || p == null)
+            if (clube == null || pessoa == null)    // se o clube ou a pessoa nao existirem
                 return false;
 
-            salarios[f][p] = valor;
+            salariosPorClube[clube][pessoa] = valor;     // define o valor
             return true;
         }
 
-        public bool RemoverSalario(Financas f, Pessoa p)
+        public bool RemoverSalario(Clube clube, Pessoa pessoa)    // remove salario da pessoa do clube
         {
-            if (!ExisteFinancas(f) || p == null)
+            if (clube == null || pessoa == null)     // se o clube ou a pessoa nao existirem
                 return false;
 
-            return salarios[f].Remove(p);
+            return salariosPorClube[clube].Remove(pessoa);
         }
 
-        public float ObterSalario(Financas f, Pessoa p)
+        public float ObterSalario(Clube clube, Pessoa pessoa)   // obtem salario de uma pessoa
         {
-            if (!ExisteFinancas(f) || p == null)
+            if (clube == null || pessoa == null)       // se o clube ou a pessoa nao existirem
                 return 0f;
 
-            if (!salarios[f].ContainsKey(p))
+            if (!salariosPorClube[clube].ContainsKey(pessoa))     // nao existe a pessoa nos salarios do clube
                 return 0f;
 
-            return salarios[f][p];
+            return salariosPorClube[clube][pessoa];     // devolve o salario da pessoa
         }
 
-        public float TotalSalarios(Financas f)
+        public float TotalSalarios(Clube clube)  // devolve o total de salarios do clube
         {
-            if (!ExisteFinancas(f))
+            if (clube == null)      // se o clube nao existir
                 return 0f;
 
-            float total = 0f;
-            foreach (float valor in salarios[f].Values)
+            float total = 0f;                                      // define valor como 0
+            foreach (float valor in salariosPorClube[clube].Values)    // percorre o dicionario e soma os valores
                 total += valor;
 
             return total;
@@ -145,55 +129,47 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
 
         #region Valores de Mercado
 
-        public bool DefinirValorMercado(Financas f, Pessoa p, float valor)
+        public bool DefinirValorMercado(Clube clube, Pessoa pessoa, float valor)       // define valor de mercado da pessoa
         {
-            if (!ExisteFinancas(f) || p == null)
+            if (clube == null || pessoa == null)       // se o clube ou a pessoa nao existirem
                 return false;
 
-            if (!valoresMercado.ContainsKey(f))
-                valoresMercado[f] = new Dictionary<Pessoa, float>();
-
-            if (!valoresMercado[f].ContainsKey(p))
-                valoresMercado[f].Add(p, valor);
-            else
-                valoresMercado[f][p] = valor;
-
+            valoresMercadoPorClube[clube][pessoa] = valor;     // define o valor de mercado
             return true;
         }
 
-
-        public bool RemoverValorMercado(Financas f, Pessoa p)
+        public bool RemoverValorMercado(Clube clube, Pessoa pessoa)          // remove valor de mercado da pessoa
         {
-            if (!ExisteFinancas(f) || p == null)
+            if (clube == null || pessoa == null)              // se o clube ou a pessoa nao existirem
                 return false;
 
-            return valoresMercado[f].Remove(p);
+            return valoresMercadoPorClube[clube].Remove(pessoa);
         }
 
-        public float ObterValorMercado(Financas f, Pessoa p)
+        public float ObterValorMercado(Clube clube, Pessoa pessoa)    // obtem valor de mercado de uma pessoa
         {
-            if (!ExisteFinancas(f) || p == null)
+            if (clube == null || pessoa == null)          // se o clube ou a pessoa nao existirem
                 return 0f;
 
-            if (!valoresMercado[f].ContainsKey(p))
+            if (!valoresMercadoPorClube[clube].ContainsKey(pessoa))        // nao existe a pessoa nos valores de mercado
                 return 0f;
 
-            return valoresMercado[f][p];
+            return valoresMercadoPorClube[clube][pessoa];
         }
 
         #endregion
 
-        public bool GuardarFinancas(string ficheiro)
+        #region Persistência
+
+        public bool GuardarFinancas(string ficheiro)     // guarda as financas dos clubes
         {
             try
             {
-                using (FileStream fs = new FileStream(ficheiro, FileMode.Create))
+                using (FileStream fs = new FileStream(ficheiro, FileMode.Create))   // abre ou cria o ficheiro
                 {
-                    BinaryFormatter bf = new BinaryFormatter();
-
-                    bf.Serialize(fs, listaFinancas);
-                    bf.Serialize(fs, salarios);
-                    bf.Serialize(fs, valoresMercado);
+                    BinaryFormatter bf = new BinaryFormatter();           // em binario
+                    bf.Serialize(fs, salariosPorClube);            // guarda salarios por clube
+                    bf.Serialize(fs, valoresMercadoPorClube);      // guarda valores de mercado por clube
                 }
                 return true;
             }
@@ -202,32 +178,29 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
                 return false;
             }
         }
-        public bool LerFinancas(string ficheiro)
+
+        public bool LerFinancas(string ficheiro)    // le as financas dos clubes
         {
-            if (!File.Exists(ficheiro))
+            if (!File.Exists(ficheiro))    // se o ficheiro nao existir
                 return false;
 
             try
             {
-                using (FileStream fs = new FileStream(ficheiro, FileMode.Open))
+                using (FileStream fs = new FileStream(ficheiro, FileMode.Open))    // abre o ficheiro
                 {
-                    BinaryFormatter bf = new BinaryFormatter();
+                    BinaryFormatter bf = new BinaryFormatter();           // em binario
 
-                    listaFinancas.Clear();
-                    salarios.Clear();
-                    valoresMercado.Clear();
+                    salariosPorClube.Clear();                      // limpa os dicionarios
+                    valoresMercadoPorClube.Clear();
 
-                    var lista = (List<Financas>)bf.Deserialize(fs);
-                    var sal = (Dictionary<Financas, Dictionary<Pessoa, float>>)bf.Deserialize(fs);
-                    var mercado = (Dictionary<Financas, Dictionary<Pessoa, float>>)bf.Deserialize(fs);
+                    var sal = (Dictionary<Clube, Dictionary<Pessoa, float>>)bf.Deserialize(fs);
+                    var mercado = (Dictionary<Clube, Dictionary<Pessoa, float>>)bf.Deserialize(fs);
 
-                    listaFinancas.AddRange(lista);
-
-                    foreach (var s in sal)
-                        salarios.Add(s.Key, s.Value);
+                    foreach (var s in sal)                         // copia os dados lidos
+                        salariosPorClube.Add(s.Key, s.Value);
 
                     foreach (var v in mercado)
-                        valoresMercado.Add(v.Key, v.Value);
+                        valoresMercadoPorClube.Add(v.Key, v.Value);
                 }
                 return true;
             }
@@ -237,5 +210,6 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
             }
         }
 
+        #endregion
     }
 }

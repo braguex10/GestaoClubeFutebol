@@ -13,40 +13,43 @@ namespace ClubeFutebol.Dados.Interfaces
 {
     public interface InterfaceFinancasDados
     {
-        #region Gestão Geral
+        #region Inicialização
 
-        bool InserirFinancas(Financas f);
-        bool RemoverFinancas(Financas f);
-        bool ExisteFinancas(Financas f);
+        // Inicializa as estruturas financeiras de um clube
+        void InicializarClube(Clube clube);
 
         #endregion
 
         #region Saldo e Orçamentos
 
-        bool AtualizarSaldo(Financas f, float valor);
-        bool AtualizarOrcamentoSalarios(Financas f, float valor);
-        bool AtualizarOrcamentoTransferencias(Financas f, float valor);
+        bool AtualizarSaldo(Clube clube, float valor);
+        bool AtualizarOrcamentoSalarios(Clube clube, float valor);
+        bool AtualizarOrcamentoTransferencias(Clube clube, float valor);
 
         #endregion
 
         #region Salários
 
-        bool DefinirSalario(Financas f, Pessoa p, float valor);
-        bool RemoverSalario(Financas f, Pessoa p);
-        float ObterSalario(Financas f, Pessoa p);
-        float TotalSalarios(Financas f);
+        bool DefinirSalario(Clube clube, Pessoa pessoa, float valor);
+        bool RemoverSalario(Clube clube, Pessoa pessoa);
+        float ObterSalario(Clube clube, Pessoa pessoa);
+        float TotalSalarios(Clube clube);
 
         #endregion
 
         #region Valores de Mercado
 
-        bool DefinirValorMercado(Financas f, Pessoa p, float valor);
-        bool RemoverValorMercado(Financas f, Pessoa p);
-        float ObterValorMercado(Financas f, Pessoa p);
+        bool DefinirValorMercado(Clube clube, Pessoa pessoa, float valor);
+        bool RemoverValorMercado(Clube clube, Pessoa pessoa);
+        float ObterValorMercado(Clube clube, Pessoa pessoa);
 
         #endregion
 
+        #region Persistência
+
         bool GuardarFinancas(string ficheiro);
         bool LerFinancas(string ficheiro);
+
+        #endregion
     }
 }

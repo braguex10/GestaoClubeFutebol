@@ -11,7 +11,7 @@ using System;
 namespace ClubeFutebol.BOO.Pessoas
 {
     [Serializable]
-    public abstract class Pessoa
+    public abstract class Pessoa  //abstrata porque esta serve somente para ser uma base para jogador e treinador
     {
 
         #region Atributos
@@ -75,7 +75,7 @@ namespace ClubeFutebol.BOO.Pessoas
         public string Genero
         {
             get { return genero; }
-            set { genero = value; }                 // pode surgir algumas duvidas em questao a este topico
+            set { genero = value; }                 
 
         }
 

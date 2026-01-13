@@ -25,7 +25,7 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
 
         #region Construtores 
 
-        public Equipa()
+        public Equipa()         // construtor vazio, inicializa os atributos vazios
         {
             escalao = string.Empty;
             liga = string.Empty;
@@ -69,7 +69,8 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
             set { treinadorPrincipal = value; }
         }
 
-        public bool TemTreinador
+
+        public bool TemTreinador     //propriedade lógica, verifica se a equipa tem treinador
         {
             get { return treinadorPrincipal != null; }
         }
@@ -78,12 +79,12 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
 
         #region Overrides
 
-        public override string ToString()
+        public override string ToString()  // como a equipa aparece em texto
         {
             return $"{Escalao} | {Liga} | Clube: {NomeClube}";
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object obj)  // quando é que duas equipas sao iguais
         {
             if (!(obj is Equipa))
                 return false;
@@ -94,7 +95,7 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
                    this.NomeClube == other.NomeClube;
         }
 
-        public override int GetHashCode()
+        public override int GetHashCode() // obter o codigo para usar em colecoes
         {
             return (Escalao + Liga + NomeClube).GetHashCode();
         }

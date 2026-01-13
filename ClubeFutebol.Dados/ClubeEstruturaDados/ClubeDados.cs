@@ -18,14 +18,14 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
     {
         #region Atributos
 
-        private readonly List<Clube> clubes;
-        private readonly Dictionary<Clube, List<Equipa>> equipasPorClube;
+        private readonly List<Clube> clubes;                                     // lista que guarda todos os clubes, ordem importa
+        private readonly Dictionary<Clube, List<Equipa>> equipasPorClube;        // guarda as equipas por clube
 
         #endregion
 
         #region Construtor
 
-        public ClubeDados()
+        public ClubeDados()                         // inicializa a estrutura de dados
         {
             clubes = new List<Clube>();
             equipasPorClube = new Dictionary<Clube, List<Equipa>>();
@@ -35,20 +35,20 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
 
         #region Clubes
 
-        public bool CriarClube(Clube clube)
+        public bool CriarClube(Clube clube)                         // criar um clube
         {
-            clubes.Add(clube);
-            equipasPorClube[clube] = new List<Equipa>();
+            clubes.Add(clube);                                      // cria clube
+            equipasPorClube[clube] = new List<Equipa>();            // cria uma lista no dicionario para o clube criado
             return true;
         }
 
-        public bool RemoverClube(Clube clube)
+        public bool RemoverClube(Clube clube)                      // eliminar um clube
         {
-            equipasPorClube.Remove(clube);
-            return clubes.Remove(clube);
+            equipasPorClube.Remove(clube);                         // elimina as equipas associadas ao clube
+            return clubes.Remove(clube);                           // elimina o clube
         }
 
-        public IReadOnlyList<Clube> ListarClubes()
+        public IReadOnlyList<Clube> ListarClubes()                // lista os clubes presentes na lista de clubes
         {
             return clubes.AsReadOnly();
         }
@@ -57,34 +57,34 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
 
         #region Equipas do Clube
 
-        public bool AdicionarEquipa(Clube clube, Equipa equipa)
+        public bool AdicionarEquipa(Clube clube, Equipa equipa)             // adicionar equipas ao clube
         {
-            equipasPorClube[clube].Add(equipa);
+            equipasPorClube[clube].Add(equipa);                          // adiciona equipa no dicionario do clube, na lista
             return true;
         }
 
-        public bool RemoverEquipa(Clube clube, Equipa equipa)
+        public bool RemoverEquipa(Clube clube, Equipa equipa)           // remove equipa do clube
         {
-            return equipasPorClube[clube].Remove(equipa);
+            return equipasPorClube[clube].Remove(equipa);             // remove do dicionario do clube, da lista
         }
 
-        public IReadOnlyList<Equipa> ObterEquipas(Clube clube)
+        public IReadOnlyList<Equipa> ObterEquipas(Clube clube)              // listar as equipas presentes no dicionario do clube
         {
             return equipasPorClube[clube].AsReadOnly();
         }
 
         #endregion
-        public bool ExisteClube(Clube clube)
+        public bool ExisteClube(Clube clube)                            // verifica se existe o clube
         {
             return clubes.Contains(clube);
         }
 
-        public int NumeroEquipas(Clube clube)
+        public int NumeroEquipas(Clube clube)               // quantas equipas tem o clube
         {
             return equipasPorClube[clube].Count;
         }
 
-        public Clube ObterClubePorNome(string nome)
+        public Clube ObterClubePorNome(string nome)            // devolve o objeto do clube
         {
             foreach (Clube c in clubes)
             {
@@ -94,15 +94,15 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
             return null;
         }
 
-        public bool GuardarClubes(string ficheiro)
+        public bool GuardarClubes(string ficheiro)              // guarda os clubes e a sua relacao com equipas
         {
             try
             {
-                using (FileStream fs = new FileStream(ficheiro, FileMode.Create))
+                using (FileStream fs = new FileStream(ficheiro, FileMode.Create))      // abre cria o ficheiro em que ira ser guardado
                 {
-                    BinaryFormatter bf = new BinaryFormatter();
-                    bf.Serialize(fs, clubes);
-                    bf.Serialize(fs, equipasPorClube);
+                    BinaryFormatter bf = new BinaryFormatter();                         // em binario
+                    bf.Serialize(fs, clubes);                                           // converte a lista de clubes em bytes
+                    bf.Serialize(fs, equipasPorClube);                                  // converte o dicionario de clubes e as suas respetivas equipas em bytes
                 }
                 return true;
             }
@@ -111,21 +111,21 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
                 return false;
             }
         }
-        public bool LerClubes(string ficheiro)
+        public bool LerClubes(string ficheiro)                      // le os clubes e a sua relacao com equipas
         {
             try
             {
-                using (FileStream fs = new FileStream(ficheiro, FileMode.Open))
+                using (FileStream fs = new FileStream(ficheiro, FileMode.Open))         // abre o ficheiro existe 
                 {
-                    BinaryFormatter bf = new BinaryFormatter();
+                    BinaryFormatter bf = new BinaryFormatter();                         // em formato binario
 
-                    clubes.Clear();
-                    equipasPorClube.Clear();
+                    clubes.Clear();                                                     // limpa a memoria que tem do ficheiro neste momento para evitar mistura de dados
+                    equipasPorClube.Clear();                                            // e necessario limpara para nao provocar duplicacoes e lixo
 
-                    clubes.AddRange((List<Clube>)bf.Deserialize(fs));
+                    clubes.AddRange((List<Clube>)bf.Deserialize(fs));                  // lê a lista de clubes presente no ficheiro
 
-                    var dados = (Dictionary<Clube, List<Equipa>>)bf.Deserialize(fs);
-                    foreach (var d in dados)
+                    var dados = (Dictionary<Clube, List<Equipa>>)bf.Deserialize(fs);   // como o dicionario é readonly é necessario passar primeiro o dicionario para a variavel dados(copia)
+                    foreach (var d in dados)                                           // copia os dados e coloca-os no dicionario
                         equipasPorClube.Add(d.Key, d.Value);
                 }
                 return true;

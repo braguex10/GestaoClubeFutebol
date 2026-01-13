@@ -15,22 +15,22 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
     {
         #region Atributos
 
-        float saldoClube;
-        float orcamentoSalarios;
-        float orcamentoTransferencias;
+        float saldoClube;                     // dinheiro do clube
+        float orcamentoSalarios;              // limites financeiros do clube
+        float orcamentoTransferencias;        //         ""
 
         #endregion
 
         #region Construtores
 
-        public Financas()
+        public Financas()                   // inicializado os atributos, com os valores todos zero
         {
             saldoClube = 0f;
             orcamentoSalarios = 0f;
             orcamentoTransferencias = 0f;
         }
 
-        public Financas(float saldoClube, float orcamentoSalarios, float orcamentoTransferencias)
+        public Financas(float saldoClube, float orcamentoSalarios, float orcamentoTransferencias)   // atribuidos valores aos atributos
         {
             SaldoClube = saldoClube;
             OrcamentoSalarios = orcamentoSalarios;
@@ -63,29 +63,9 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
 
         #region Overrides
 
-        public override string ToString()
+        public override string ToString()  // como as financas do clube sao representadas em texto
         {
             return $"Saldo: {saldoClube} | Salários: {orcamentoSalarios} | Transferências: {orcamentoTransferencias}";
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (!(obj is Financas))
-                return false;
-
-            Financas other = (Financas)obj;
-            return saldoClube == other.saldoClube &&
-                   orcamentoSalarios == other.orcamentoSalarios &&
-                   orcamentoTransferencias == other.orcamentoTransferencias;
-        }
-
-        public override int GetHashCode()
-        {
-            int hash = 17;
-            hash = hash * 23 + saldoClube.GetHashCode();
-            hash = hash * 23 + orcamentoSalarios.GetHashCode();
-            hash = hash * 23 + orcamentoTransferencias.GetHashCode();
-            return hash;
         }
 
         #endregion

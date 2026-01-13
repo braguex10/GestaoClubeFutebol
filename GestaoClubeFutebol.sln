@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubeFutebol.Regras", "Club
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubeFutebol.Dados", "ClubeFutebol.Dados\ClubeFutebol.Dados.csproj", "{67541BCF-D12D-4A74-A1E8-480F931FF456}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesteUnitario", "TesteUnitario\TesteUnitario.csproj", "{A33F0279-DF9C-45AE-A321-69B09A67D2F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{67541BCF-D12D-4A74-A1E8-480F931FF456}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67541BCF-D12D-4A74-A1E8-480F931FF456}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67541BCF-D12D-4A74-A1E8-480F931FF456}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A33F0279-DF9C-45AE-A321-69B09A67D2F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A33F0279-DF9C-45AE-A321-69B09A67D2F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A33F0279-DF9C-45AE-A321-69B09A67D2F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A33F0279-DF9C-45AE-A321-69B09A67D2F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

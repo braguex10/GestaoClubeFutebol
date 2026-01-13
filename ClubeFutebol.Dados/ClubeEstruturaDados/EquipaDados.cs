@@ -19,7 +19,7 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
     {
         #region Atributos
 
-        private readonly Dictionary<Equipa, List<Jogador>> jogadoresPorEquipa;
+        private readonly Dictionary<Equipa, List<Jogador>> jogadoresPorEquipa;  //permite saber a que equipa pertecem os jogadores ( ligacao 1 para muitos)
 
         #endregion
 

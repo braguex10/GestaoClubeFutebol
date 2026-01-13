@@ -11,7 +11,7 @@ using System;
 namespace ClubeFutebol.BOO.Pessoas
 {
     [Serializable]
-    public class Jogador : Pessoa, IComparable<Jogador>
+    public class Jogador : Pessoa, IComparable<Jogador>  //necessario para o compareto
     {
         #region Atributos
 
@@ -30,7 +30,7 @@ namespace ClubeFutebol.BOO.Pessoas
         }
 
         public Jogador(byte numero, string posicao, string nome, byte idade, string nacionalidade, string genero, int numeroSocio, int contacto)
-                         : base(nome, idade, nacionalidade, genero, numeroSocio, contacto)  // pois estes valores sao herdados de pessao
+                         : base(nome, idade, nacionalidade, genero, numeroSocio, contacto)  // pois estes valores sao herdados de pessoa
         {
             Numero = numero;
             Posicao = posicao;

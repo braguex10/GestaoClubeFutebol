@@ -18,185 +18,131 @@ namespace ClubeFutebol.Regras
     {
         #region Atributos
 
-        private readonly InterfaceFinancasDados financasDados;
+        private readonly InterfaceFinancasDados financasDados;   // acesso aos dados financeiros
 
         #endregion
 
         #region Construtor
 
-        public RegrasFinancas(InterfaceFinancasDados financasDados)
+        public RegrasFinancas(InterfaceFinancasDados financasDados)   // injecao da camada de dados
         {
             this.financasDados = financasDados;
         }
 
         #endregion
 
-        #region Gestão Geral
-
-        public bool InserirFinancas(Financas f)
-        {
-            if (f == null)
-                return false;
-
-            return financasDados.InserirFinancas(f);
-        }
-
-        public bool RemoverFinancas(Financas f)
-        {
-            if (f == null)
-                return false;
-
-            // regra: não remover se houver salários associados
-            if (financasDados.TotalSalarios(f) > 0)
-                return false;
-
-            return financasDados.RemoverFinancas(f);
-        }
-
-        #endregion
-
         #region Saldo e Orçamentos
 
-        public bool AtualizarSaldo(Financas f, float valor)
+        public bool AtualizarSaldo(Clube clube, float valor)    // atualiza o saldo do clube
         {
-            if (f == null)
+            if (clube == null)                  // se o clube nao existir
                 return false;
 
-            if (!financasDados.ExisteFinancas(f))
-                return false;
-
-            if (valor < 0)
+            if (valor < 0)                      // saldo nao pode ser negativo
                 throw new ValorInvalidoException("Saldo");
 
-            return financasDados.AtualizarSaldo(f, valor);
+            return financasDados.AtualizarSaldo(clube, valor);
         }
 
-        public bool AtualizarOrcamentoSalarios(Financas f, float valor)
+        public bool AtualizarOrcamentoSalarios(Clube clube, float valor)   // atualiza orcamento de salarios
         {
-            if (f == null)
+            if (clube == null)
                 return false;
 
-            if (!financasDados.ExisteFinancas(f))
-                return false;
-
-            if (valor < 0)
+            if (valor < 0)                      // orcamento invalido
                 throw new ValorInvalidoException("Orçamento de Salários");
 
-            // regra: novo orçamento + transferências não pode ultrapassar o saldo
-            if (valor + f.OrcamentoTransferencias > f.SaldoClube)
-                throw new SaldoInsuficienteException();
+            if (valor + clube.Financas.OrcamentoTransferencias > clube.Financas.SaldoClube)
+                throw new SaldoInsuficienteException();          // nao pode ultrapassar o saldo
 
-            return financasDados.AtualizarOrcamentoSalarios(f, valor);
+            return financasDados.AtualizarOrcamentoSalarios(clube, valor);
         }
 
-        public bool AtualizarOrcamentoTransferencias(Financas f, float valor)
+        public bool AtualizarOrcamentoTransferencias(Clube clube, float valor)   // atualiza orcamento de transferencias
         {
-            if (f == null)
-                return false;
-
-            if (!financasDados.ExisteFinancas(f))
+            if (clube == null)
                 return false;
 
             if (valor < 0)
                 throw new ValorInvalidoException("Orçamento de Transferências");
 
-            // regra: salários + novo orçamento não pode ultrapassar o saldo
-            if (f.OrcamentoSalarios + valor > f.SaldoClube)
+            if (clube.Financas.OrcamentoSalarios + valor > clube.Financas.SaldoClube)
                 throw new SaldoInsuficienteException();
 
-            return financasDados.AtualizarOrcamentoTransferencias(f, valor);
+            return financasDados.AtualizarOrcamentoTransferencias(clube, valor);
         }
 
         #endregion
 
         #region Salários
 
-        public bool DefinirSalario(Financas f, Pessoa p, float valor)
+        public bool DefinirSalario(Clube clube, Pessoa pessoa, float valor)   // define salario de uma pessoa
         {
-            if (f == null || p == null)
-                return false;
-
-            if (!financasDados.ExisteFinancas(f))
+            if (clube == null || pessoa == null)
                 return false;
 
             if (valor <= 0)
                 throw new ValorInvalidoException("Salário");
 
-            // regra: salário não pode ultrapassar orçamento
-            if (valor > f.OrcamentoSalarios)
-                throw new OrcamentoInsuficienteException();
+            if (valor > clube.Financas.OrcamentoSalarios)
+                throw new OrcamentoInsuficienteException();     // ultrapassa orcamento
 
-            // regra: salário não pode ultrapassar saldo
-            if (valor > f.SaldoClube)
-                throw new SaldoInsuficienteException();
+            if (valor > clube.Financas.SaldoClube)
+                throw new SaldoInsuficienteException();         // ultrapassa saldo
 
-            return financasDados.DefinirSalario(f, p, valor);
+            return financasDados.DefinirSalario(clube, pessoa, valor);
         }
 
-        public bool RemoverSalario(Financas f, Pessoa p)
+        public bool RemoverSalario(Clube clube, Pessoa pessoa)   // remove salario da pessoa
         {
-            if (f == null || p == null)
+            if (clube == null || pessoa == null)
                 return false;
 
-            if (!financasDados.ExisteFinancas(f))
-                return false;
-
-            return financasDados.RemoverSalario(f, p);
+            return financasDados.RemoverSalario(clube, pessoa);
         }
 
         #endregion
 
         #region Transferências
 
-        public bool ComprarPessoa(Financas f, Pessoa p, float valorMercado)
+        public bool ComprarPessoa(Clube clube, Pessoa pessoa, float valorMercado)   // compra uma pessoa
         {
-            if (f == null || p == null)
-                return false;
-
-            if (!financasDados.ExisteFinancas(f))
+            if (clube == null || pessoa == null)
                 return false;
 
             if (valorMercado <= 0)
                 throw new ValorInvalidoException("Valor de Mercado");
 
-            if (valorMercado > f.SaldoClube)
+            if (valorMercado > clube.Financas.SaldoClube)
                 throw new SaldoInsuficienteException();
 
-            if (valorMercado > f.OrcamentoTransferencias)
+            if (valorMercado > clube.Financas.OrcamentoTransferencias)
                 throw new OrcamentoInsuficienteException();
 
-            // debitar saldo e orçamento
-            financasDados.AtualizarSaldo(f, f.SaldoClube - valorMercado);
+            financasDados.AtualizarSaldo(clube, clube.Financas.SaldoClube - valorMercado);
             financasDados.AtualizarOrcamentoTransferencias(
-                f, f.OrcamentoTransferencias - valorMercado);
+                clube, clube.Financas.OrcamentoTransferencias - valorMercado);
 
-            financasDados.DefinirValorMercado(f, p, valorMercado);
-            return true;
+            return financasDados.DefinirValorMercado(clube, pessoa, valorMercado);
         }
 
-        public bool VenderPessoa(Financas f, Pessoa p, float valorMercado)
+        public bool VenderPessoa(Clube clube, Pessoa pessoa, float valorMercado)   // vende uma pessoa
         {
-            if (f == null || p == null)
-                return false;
-
-            if (!financasDados.ExisteFinancas(f))
+            if (clube == null || pessoa == null)
                 return false;
 
             if (valorMercado <= 0)
                 throw new ValorInvalidoException("Valor de Mercado");
 
-            // creditar saldo
-            financasDados.AtualizarSaldo(f, f.SaldoClube + valorMercado);
-            financasDados.RemoverValorMercado(f, p);
-
-            return true;
+            financasDados.AtualizarSaldo(clube, clube.Financas.SaldoClube + valorMercado);
+            return financasDados.RemoverValorMercado(clube, pessoa);
         }
 
         #endregion
 
         #region Ficheiros
 
-        public bool GuardarDados(string ficheiro)
+        public bool GuardarDados(string ficheiro)   // guarda os dados financeiros
         {
             if (string.IsNullOrWhiteSpace(ficheiro))
                 return false;
@@ -204,7 +150,7 @@ namespace ClubeFutebol.Regras
             return financasDados.GuardarFinancas(ficheiro);
         }
 
-        public bool LerDados(string ficheiro)
+        public bool LerDados(string ficheiro)   // le os dados financeiros
         {
             if (string.IsNullOrWhiteSpace(ficheiro))
                 return false;

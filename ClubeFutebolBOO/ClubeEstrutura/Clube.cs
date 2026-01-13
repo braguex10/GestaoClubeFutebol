@@ -11,36 +11,40 @@ using System;
 namespace ClubeFutebol.BOO.ClubeEstrutura
 {
     [Serializable]
-    public class Clube : IComparable<Clube>
+    public class Clube : IComparable<Clube> // clubes podem ser comparados
     {
         #region Atributos
 
-        string nome;              // nome do clube
-        short anoFundacao;        // ano da fundação
-        string email;             // email de contacto
-        int numeroTelefonico;     // número de contacto
-        string pais;              // país onde atua
+        string nome;              
+        short anoFundacao;        
+        string email;             
+        int numeroTelefonico;     
+        string pais;              
 
+        public Financas financas;
         #endregion
 
         #region Construtores
 
-        public Clube()         // construtor default
+        public Clube()         // construtor default, inicializa os atributos vazios, espaco para futuro preenchimento
         {
             nome = string.Empty;
             anoFundacao = 0;
             email = string.Empty;
             numeroTelefonico = 0;
             pais = string.Empty;
+            financas = new Financas();
         }
 
-        public Clube(string nome, short anoFundacao, string email, int numeroTelefonico, string pais)
+        public Clube(string nome, short anoFundacao, string email, int numeroTelefonico, string pais)  // construtor com os valores atribuidos
         {
             Nome = nome;
             AnoFundacao = anoFundacao;
             Email = email;
             NumeroTelefonico = numeroTelefonico;
             Pais = pais;
+            financas = new Financas();
+
         }
 
         #endregion
@@ -56,13 +60,9 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
         public short AnoFundacao
         {
             get { return anoFundacao; }
-            set
-            {
-                if (value >= 1863)
-                    anoFundacao = value;
-                else
-                    anoFundacao = 0;
-            }
+            set { anoFundacao = value; }
+
+
         }
 
         public string Email
@@ -83,13 +83,17 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
             get { return pais; }
             set { pais = value; }
         }
-
+        public Financas Financas
+        {
+            get { return financas; }
+            set { financas = value; }
+        }
         #endregion
 
 
         #region Metodos
 
-        public int CompareTo(Clube other)
+        public int CompareTo(Clube other)  // permite comparar os clubes por nome
         {
             if (other == null)
                 return 1;
@@ -103,12 +107,12 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
 
         #region Overrides
 
-        public override string ToString()
+        public override string ToString()  // como o clube aparece em texto
         {
             return $"{Nome} ({Pais}) - Fundado em {AnoFundacao}";
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object obj)   // quando os clubes sao iguais
         {
             if (!(obj is Clube))
                 return false;
@@ -117,7 +121,7 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
             return this.Nome == other.Nome;
         }
 
-        public override int GetHashCode()
+        public override int GetHashCode()  // gera o codigo para depois ser utilizado em colecoes
         {
             return Nome.GetHashCode();
         }
