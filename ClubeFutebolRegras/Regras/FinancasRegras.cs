@@ -14,6 +14,9 @@ using System.IO;
 
 namespace ClubeFutebol.Regras
 {
+    /// <summary>
+    /// Camada de Dados responsável pela Validação das finanças do clube
+    /// </summary>
     public class RegrasFinancas
     {
         #region Atributos
@@ -32,7 +35,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Saldo e Orçamentos
-
+        /// <summary>
+        /// Veriifica a atualização de saldo
+        /// </summary>
         public bool AtualizarSaldo(Clube clube, float valor)    // atualiza o saldo do clube
         {
             if (clube == null)                  // se o clube nao existir
@@ -43,7 +48,9 @@ namespace ClubeFutebol.Regras
 
             return financasDados.AtualizarSaldo(clube, valor);
         }
-
+        /// <summary>
+        /// Valida a atualização de orçamento para salários
+        /// </summary>
         public bool AtualizarOrcamentoSalarios(Clube clube, float valor)   // atualiza orcamento de salarios
         {
             if (clube == null)
@@ -57,7 +64,9 @@ namespace ClubeFutebol.Regras
 
             return financasDados.AtualizarOrcamentoSalarios(clube, valor);
         }
-
+        /// <summary>
+        /// Valida a atualização de orçamento para transferências
+        /// </summary>
         public bool AtualizarOrcamentoTransferencias(Clube clube, float valor)   // atualiza orcamento de transferencias
         {
             if (clube == null)
@@ -75,7 +84,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Salários
-
+        /// <summary>
+        /// Valida a definição do salário
+        /// </summary>
         public bool DefinirSalario(Clube clube, Pessoa pessoa, float valor)   // define salario de uma pessoa
         {
             if (clube == null || pessoa == null)
@@ -92,7 +103,9 @@ namespace ClubeFutebol.Regras
 
             return financasDados.DefinirSalario(clube, pessoa, valor);
         }
-
+        /// <summary>
+        /// Valida a remoção de salário
+        /// </summary>
         public bool RemoverSalario(Clube clube, Pessoa pessoa)   // remove salario da pessoa
         {
             if (clube == null || pessoa == null)
@@ -104,7 +117,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Transferências
-
+        /// <summary>
+        /// Valida a possibilidade de comprar certa pessoas
+        /// </summary>
         public bool ComprarPessoa(Clube clube, Pessoa pessoa, float valorMercado)   // compra uma pessoa
         {
             if (clube == null || pessoa == null)
@@ -125,7 +140,9 @@ namespace ClubeFutebol.Regras
 
             return financasDados.DefinirValorMercado(clube, pessoa, valorMercado);
         }
-
+        /// <summary>
+        /// Valida a possibilidade de vender pessoa
+        /// </summary>
         public bool VenderPessoa(Clube clube, Pessoa pessoa, float valorMercado)   // vende uma pessoa
         {
             if (clube == null || pessoa == null)
@@ -141,7 +158,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Ficheiros
-
+        /// <summary>
+        /// Valida os dados de finanças de clube a serem guardados
+        /// </summary>
         public bool GuardarDados(string ficheiro)   // guarda os dados financeiros
         {
             if (string.IsNullOrWhiteSpace(ficheiro))
@@ -149,7 +168,9 @@ namespace ClubeFutebol.Regras
 
             return financasDados.GuardarFinancas(ficheiro);
         }
-
+        /// <summary>
+        /// Valida a leitura de ficheiro das finanças do clube
+        /// </summary>
         public bool LerDados(string ficheiro)   // le os dados financeiros
         {
             if (string.IsNullOrWhiteSpace(ficheiro))

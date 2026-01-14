@@ -11,6 +11,10 @@ using System;
 namespace ClubeFutebol.BOO.ClubeEstrutura
 {
     [Serializable]
+
+    /// <summary>
+    /// Classe que representa Clube de futebol.
+    /// </summary>
     public class Clube : IComparable<Clube> // clubes podem ser comparados
     {
         #region Atributos
@@ -25,7 +29,7 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
         #endregion
 
         #region Construtores
-
+        /// <summary>Construtor Vazio</summary>
         public Clube()         // construtor default, inicializa os atributos vazios, espaco para futuro preenchimento
         {
             nome = string.Empty;
@@ -35,7 +39,7 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
             pais = string.Empty;
             financas = new Financas();
         }
-
+        /// <summary>Construtor Completo</summary>
         public Clube(string nome, short anoFundacao, string email, int numeroTelefonico, string pais)  // construtor com os valores atribuidos
         {
             Nome = nome;
@@ -92,7 +96,9 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
 
 
         #region Metodos
-
+        /// <summary>
+        /// Método intrinseco que ordena clubes por nome
+        /// </summary>
         public int CompareTo(Clube other)  // permite comparar os clubes por nome
         {
             if (other == null)

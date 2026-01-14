@@ -14,6 +14,9 @@ using System.IO;
 
 namespace ClubeFutebol.Regras
 {
+    /// <summary>
+    /// Camada de Dados responsável pela validação de Clube
+    /// </summary>
     public class RegrasClube
     {
         #region Atributos
@@ -32,7 +35,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Criar Clube
-
+        /// <summary>
+        /// Validação para criação do clube
+        /// </summary>
         public bool CriarClube(Clube clube)
         {
             if (clube == null)       // o clube tem de existir
@@ -71,7 +76,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Remover Clube
-
+        /// <summary>
+        /// Validação da remoção de clube
+        /// </summary>
         public bool RemoverClube(Clube clube)
         {
             if (clube == null)
@@ -90,7 +97,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Atualizar Clube
-
+        /// <summary>
+        /// Validação da atualização do clube
+        /// </summary>
         public bool AtualizarClube(Clube clube, string novoNome, short novoAnoFundacao, string novoEmail, int novoNumeroTelefonico, string novoPais)
         {
             if (clube == null)               // se o clube nao exsitir
@@ -133,7 +142,9 @@ namespace ClubeFutebol.Regras
         }
 
         #endregion
-
+        /// <summary>
+        /// Verifica se é possível guardar em ficheiro o clube
+        /// </summary>
         public bool GuardarDados(string ficheiro)
         {
             if (string.IsNullOrWhiteSpace(ficheiro))
@@ -141,6 +152,9 @@ namespace ClubeFutebol.Regras
 
             return clubeDados.GuardarClubes(ficheiro);
         }
+        /// <summary>
+        /// Verifica se é possível ler ficheiro 
+        /// </summary>
         public bool LerDados(string ficheiro)
         {
             if (string.IsNullOrWhiteSpace(ficheiro))

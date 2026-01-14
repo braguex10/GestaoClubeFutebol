@@ -13,6 +13,9 @@ using System.IO;
 
 namespace ClubeFutebol.Regras
 {
+    /// <summary>
+    /// Camada de Dados responsável pela verificação dos jogadores
+    /// </summary>
     public class RegrasJogador
     {
         #region Atributos
@@ -31,7 +34,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Criar Jogador
-
+        /// <summary>
+        /// Valida a crição de um jogador
+        /// </summary>
         public Jogador CriarJogador(
             byte numero,
             string posicao,
@@ -80,7 +85,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Atualizar Jogador
-
+        /// <summary>
+        /// Valida a atualização de um jogador
+        /// </summary>
         public bool AtualizarJogador(
             Jogador jogador,
             byte numero,
@@ -103,6 +110,9 @@ namespace ClubeFutebol.Regras
         }
 
         #endregion
+        /// <summary>
+        /// Verifica os dados de jogador a serem guardados em ficheiro 
+        /// </summary>
         public bool GuardarDados(string ficheiro)
         {
             if (string.IsNullOrWhiteSpace(ficheiro))
@@ -110,6 +120,9 @@ namespace ClubeFutebol.Regras
 
             return jogadorDados.GuardarJogadores(ficheiro);
         }
+        /// <summary>
+        /// Verifica a leitura do ficheiro acerca do jogador
+        /// </summary>
         public bool LerDados(string ficheiro)
         {
             if (string.IsNullOrWhiteSpace(ficheiro))

@@ -16,7 +16,7 @@ namespace ClubeFutebol.Dados.Interfaces
         #region Inicialização
 
         // Inicializa as estruturas financeiras de um clube
-        void InicializarClube(Clube clube);
+        bool InicializarClube(Clube clube);
 
         #endregion
 

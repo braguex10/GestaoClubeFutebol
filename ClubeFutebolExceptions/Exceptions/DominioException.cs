@@ -10,6 +10,7 @@ using System;
 
 namespace ClubeFutebol.Exceptions
 {
+    //é usada para representar violações das regras de negócio que distingue erros do domínio de erros técnicos
     public class DominioException : Exception
     {
         public DominioException(string mensagem)

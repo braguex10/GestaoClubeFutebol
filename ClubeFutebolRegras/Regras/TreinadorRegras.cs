@@ -12,6 +12,9 @@ using System.IO;
 
 namespace ClubeFutebol.Regras
 {
+    /// <summary>
+    /// Camada de Dados responsável pela validação de treinador
+    /// </summary>
     public class RegrasTreinador
     {
         #region Atributos
@@ -30,7 +33,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Criar Treinador
-
+        /// <summary>
+        /// Valida a criação de treinador
+        /// </summary>
         public Treinador CriarTreinador(
             short anosExperiencia,
             string tatica,
@@ -74,7 +79,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Atualizar Treinador
-
+        /// <summary>
+        /// Valida a atualização de treinador
+        /// </summary>
         public bool AtualizarTreinador(
             Treinador treinador,
             short anosExperiencia,
@@ -101,7 +108,9 @@ namespace ClubeFutebol.Regras
 
         #endregion
         #region Ficheiros
-
+        /// <summary>
+        /// Valida os dados de treinador a serem guardados
+        /// </summary>
         public bool GuardarDados(string ficheiro)
         {
             if (string.IsNullOrWhiteSpace(ficheiro))
@@ -109,7 +118,9 @@ namespace ClubeFutebol.Regras
 
             return treinadorDados.GuardarTreinadores(ficheiro);
         }
-
+        /// <summary>
+        /// Valida a leitura dos dados de treinador
+        /// </summary>
         public bool LerDados(string ficheiro)
         {
             if (string.IsNullOrWhiteSpace(ficheiro))

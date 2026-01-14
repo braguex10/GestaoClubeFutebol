@@ -14,6 +14,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ClubeFutebol.Dados.ClubeEstrutura
 {
+    /// <summary>
+    /// Camada de Dados responsável pelo controlo e gestão de um clube
+    /// </summary>
     public class ClubeDados : InterfaceClubeDados
     {
         #region Atributos
@@ -34,20 +37,26 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
         #endregion
 
         #region Clubes
-
+        /// <summary>
+        /// Criação de um clube
+        /// </summary>
         public bool CriarClube(Clube clube)                         // criar um clube
         {
             clubes.Add(clube);                                      // cria clube
             equipasPorClube[clube] = new List<Equipa>();            // cria uma lista no dicionario para o clube criado
             return true;
         }
-
+        /// <summary>
+        /// Remoção de um clube
+        /// </summary>
         public bool RemoverClube(Clube clube)                      // eliminar um clube
         {
             equipasPorClube.Remove(clube);                         // elimina as equipas associadas ao clube
             return clubes.Remove(clube);                           // elimina o clube
         }
-
+        /// <summary>
+        /// Devolve a lista de clubes
+        /// </summary>
         public IReadOnlyList<Clube> ListarClubes()                // lista os clubes presentes na lista de clubes
         {
             return clubes.AsReadOnly();
@@ -56,34 +65,47 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
         #endregion
 
         #region Equipas do Clube
-
+        /// <summary>
+        /// Inserção de uma equipa no clube
+        /// </summary>
         public bool AdicionarEquipa(Clube clube, Equipa equipa)             // adicionar equipas ao clube
         {
             equipasPorClube[clube].Add(equipa);                          // adiciona equipa no dicionario do clube, na lista
             return true;
         }
-
+        /// <summary>
+        /// Remoção de uma equipa pertencente a um clube
+        /// </summary>
         public bool RemoverEquipa(Clube clube, Equipa equipa)           // remove equipa do clube
         {
             return equipasPorClube[clube].Remove(equipa);             // remove do dicionario do clube, da lista
         }
-
+        /// <summary>
+        /// Devolve as equipas presentes no dicionário do clube
+        /// </summary>
         public IReadOnlyList<Equipa> ObterEquipas(Clube clube)              // listar as equipas presentes no dicionario do clube
         {
             return equipasPorClube[clube].AsReadOnly();
         }
 
         #endregion
+        /// <summary>
+        /// Procura a existência de um clube
+        /// </summary>
         public bool ExisteClube(Clube clube)                            // verifica se existe o clube
         {
             return clubes.Contains(clube);
         }
-
+        /// <summary>
+        /// Conta o numero de equipas que um clube tem
+        /// </summary>
         public int NumeroEquipas(Clube clube)               // quantas equipas tem o clube
         {
             return equipasPorClube[clube].Count;
         }
-
+        /// <summary>
+        /// Devolve um objeto de clube
+        /// </summary>
         public Clube ObterClubePorNome(string nome)            // devolve o objeto do clube
         {
             foreach (Clube c in clubes)
@@ -93,7 +115,9 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
             }
             return null;
         }
-
+        /// <summary>
+        /// guarda o clube e a sua relação com equipas em ficheiro
+        /// </summary>
         public bool GuardarClubes(string ficheiro)              // guarda os clubes e a sua relacao com equipas
         {
             try
@@ -111,6 +135,9 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
                 return false;
             }
         }
+        /// <summary>
+        /// Abre o ficheiro e lê os clubes e a sua relação a equipas
+        /// </summary>
         public bool LerClubes(string ficheiro)                      // le os clubes e a sua relacao com equipas
         {
             try

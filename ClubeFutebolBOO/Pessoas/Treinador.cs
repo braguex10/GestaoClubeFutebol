@@ -11,6 +11,9 @@ using System;
 namespace ClubeFutebol.BOO.Pessoas
 {
     [Serializable]
+    /// <summary>
+    /// Classe derivada de Pessoa para representar um treinador de uma equipa
+    /// </summary>
     public class Treinador : Pessoa
     {
         #region Atributos
@@ -21,7 +24,7 @@ namespace ClubeFutebol.BOO.Pessoas
         #endregion
 
         #region Construtor
-
+        /// <summary>Construtor Vazio</summary>
         public Treinador()
         {
             anosExperiencia = 0;
@@ -29,7 +32,7 @@ namespace ClubeFutebol.BOO.Pessoas
         }
 
 
-
+        /// <summary>Construtor Completo</summary>
         public Treinador(short anosExperiencia, string tatica, string nome, byte idade, string nacionalidade, string genero, int numeroSocio, int contacto)
                             : base(nome, idade, nacionalidade, genero, numeroSocio, contacto)  // pois estes valores sao herdados de pessao
         {

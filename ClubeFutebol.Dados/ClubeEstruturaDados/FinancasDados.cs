@@ -15,7 +15,10 @@ using ClubeFutebol.Dados.Interfaces;
 
 namespace ClubeFutebol.Dados.ClubeEstrutura
 {
-    public class FinancasDados : InterfaceFinancasDados     // armazena os dados financeiros dependentes do clube e de pessoas
+    /// <summary>
+    /// Camada de Dados responsável pela gestão financeira do clube
+    /// </summary>
+    public class FinancasDados : InterfaceFinancasDados                                       // armazena os dados financeiros dependentes do clube e de pessoas
     {
         #region Atributos
 
@@ -37,23 +40,38 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
 
         #region Inicialização
 
-        // deve ser chamado quando um clube é criado
-        public void InicializarClube(Clube clube)
+        /// <summary>
+        /// Inicialização pós criação do clube
+        /// </summary>
+        public bool InicializarClube(Clube clube)
         {
-            if (clube == null)                          // se nao existir clube
-                return;
+            if (clube == null)  
+                return false;
 
+            bool alterado = false;                                                               // Para saber se alteramos algo
+
+            // Se o clube não tiver estruturas financeiras associadas, cria as estruturas
             if (!salariosPorClube.ContainsKey(clube))
+            {
                 salariosPorClube[clube] = new Dictionary<Pessoa, float>();
+                alterado = true;                                                                   // Indicamos que fizemos a alteração
+            }
 
-            if (!valoresMercadoPorClube.ContainsKey(clube))   // cria as estruturas financeiras associadas ao clube
+            if (!valoresMercadoPorClube.ContainsKey(clube))
+            {
                 valoresMercadoPorClube[clube] = new Dictionary<Pessoa, float>();
-        }
+                alterado = true;                                                                      // Indicamos que fizemos a alteração
+            }
 
+            // Se alteramos alguma coisa, retornamos true, caso contrário false
+            return alterado;
+        }
         #endregion
 
         #region Saldo e Orçamentos
-
+        /// <summary>
+        /// Atualiza saldo do clube
+        /// </summary>
         public bool AtualizarSaldo(Clube clube, float valor)     // atualiza saldo do clube
         {
             if (clube == null)              // se nao existir clube
@@ -62,7 +80,9 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
             clube.Financas.SaldoClube = valor;           // atribui novo valor ao saldo
             return true;
         }
-
+        /// <summary>
+        /// Atualiza o orçamento para salarios
+        /// </summary>
         public bool AtualizarOrcamentoSalarios(Clube clube, float valor)   // atualiza orcamentos para salarios
         {
             if (clube == null)              // se nao existir clube
@@ -71,7 +91,9 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
             clube.Financas.OrcamentoSalarios = valor;    // atribuicao do novo valor
             return true;
         }
-
+        /// <summary>
+        /// Atualiza o orcamento para transferências
+        /// </summary>
         public bool AtualizarOrcamentoTransferencias(Clube clube, float valor)     // atualiza orcamento transferencias
         {
             if (clube == null)                // se o clube nao existir
@@ -84,7 +106,9 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
         #endregion
 
         #region Salários
-
+        /// <summary>
+        /// Define salário de certa pessoa
+        /// </summary>
         public bool DefinirSalario(Clube clube, Pessoa pessoa, float valor)    // define salario de uma pessoa do clube
         {
             if (clube == null || pessoa == null)    // se o clube ou a pessoa nao existirem
@@ -93,7 +117,9 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
             salariosPorClube[clube][pessoa] = valor;     // define o valor
             return true;
         }
-
+        /// <summary>
+        /// Remove salário de certa pessoa
+        /// </summary>
         public bool RemoverSalario(Clube clube, Pessoa pessoa)    // remove salario da pessoa do clube
         {
             if (clube == null || pessoa == null)     // se o clube ou a pessoa nao existirem
@@ -101,7 +127,9 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
 
             return salariosPorClube[clube].Remove(pessoa);
         }
-
+        /// <summary>
+        /// Devolve o salário de alguém
+        /// </summary>
         public float ObterSalario(Clube clube, Pessoa pessoa)   // obtem salario de uma pessoa
         {
             if (clube == null || pessoa == null)       // se o clube ou a pessoa nao existirem
@@ -112,7 +140,9 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
 
             return salariosPorClube[clube][pessoa];     // devolve o salario da pessoa
         }
-
+        /// <summary>
+        /// Devolve o total de salários
+        /// </summary>
         public float TotalSalarios(Clube clube)  // devolve o total de salarios do clube
         {
             if (clube == null)      // se o clube nao existir
@@ -128,7 +158,9 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
         #endregion
 
         #region Valores de Mercado
-
+        /// <summary>
+        /// Define o valor de mercado da pessoa
+        /// </summary>
         public bool DefinirValorMercado(Clube clube, Pessoa pessoa, float valor)       // define valor de mercado da pessoa
         {
             if (clube == null || pessoa == null)       // se o clube ou a pessoa nao existirem
@@ -137,7 +169,9 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
             valoresMercadoPorClube[clube][pessoa] = valor;     // define o valor de mercado
             return true;
         }
-
+        /// <summary>
+        /// Remove o valor de mercado da pessoa
+        /// </summary>
         public bool RemoverValorMercado(Clube clube, Pessoa pessoa)          // remove valor de mercado da pessoa
         {
             if (clube == null || pessoa == null)              // se o clube ou a pessoa nao existirem
@@ -145,7 +179,9 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
 
             return valoresMercadoPorClube[clube].Remove(pessoa);
         }
-
+        /// <summary>
+        /// Devolve o valor de mercado da pessoa
+        /// </summary>
         public float ObterValorMercado(Clube clube, Pessoa pessoa)    // obtem valor de mercado de uma pessoa
         {
             if (clube == null || pessoa == null)          // se o clube ou a pessoa nao existirem
@@ -160,7 +196,9 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
         #endregion
 
         #region Persistência
-
+        /// <summary>
+        /// Guarda as financas dos clubes em ficheiro
+        /// </summary>
         public bool GuardarFinancas(string ficheiro)     // guarda as financas dos clubes
         {
             try
@@ -178,7 +216,9 @@ namespace ClubeFutebol.Dados.ClubeEstrutura
                 return false;
             }
         }
-
+        /// <summary>
+        /// Abre e lê as finanças em ficheiro de um clube
+        /// </summary>
         public bool LerFinancas(string ficheiro)    // le as financas dos clubes
         {
             if (!File.Exists(ficheiro))    // se o ficheiro nao existir

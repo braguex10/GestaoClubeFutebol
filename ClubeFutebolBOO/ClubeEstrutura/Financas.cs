@@ -11,6 +11,9 @@ using System;
 namespace ClubeFutebol.BOO.ClubeEstrutura
 {
     [Serializable]
+    /// <summary>
+    /// Classe que representa o estado financeiro de um clube
+    /// </summary>
     public class Financas
     {
         #region Atributos
@@ -22,14 +25,14 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
         #endregion
 
         #region Construtores
-
+        /// <summary>Construtor Vazio</summary>
         public Financas()                   // inicializado os atributos, com os valores todos zero
         {
             saldoClube = 0f;
             orcamentoSalarios = 0f;
             orcamentoTransferencias = 0f;
         }
-
+        /// <summary>Construtor Completo</summary>
         public Financas(float saldoClube, float orcamentoSalarios, float orcamentoTransferencias)   // atribuidos valores aos atributos
         {
             SaldoClube = saldoClube;

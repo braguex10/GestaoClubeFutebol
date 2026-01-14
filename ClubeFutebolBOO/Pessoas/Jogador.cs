@@ -11,6 +11,9 @@ using System;
 namespace ClubeFutebol.BOO.Pessoas
 {
     [Serializable]
+    /// <summary>
+    /// Classe derivada da Classe Pessoa que representa Jogador de uma certa equipa
+    /// </summary>
     public class Jogador : Pessoa, IComparable<Jogador>  //necessario para o compareto
     {
         #region Atributos
@@ -21,14 +24,14 @@ namespace ClubeFutebol.BOO.Pessoas
         #endregion
 
         #region Construtores
-
+        /// <summary>Construtor Vazio</summary>
         public Jogador()
         {
             numero = 0;
             posicao = string.Empty;
 
         }
-
+        /// <summary>Construtor Completo</summary>
         public Jogador(byte numero, string posicao, string nome, byte idade, string nacionalidade, string genero, int numeroSocio, int contacto)
                          : base(nome, idade, nacionalidade, genero, numeroSocio, contacto)  // pois estes valores sao herdados de pessoa
         {
@@ -65,6 +68,9 @@ namespace ClubeFutebol.BOO.Pessoas
         #endregion
 
         #region Metodos
+        /// <summary>
+        /// Metodo que compara dois jogadores e ordena-os conforme o seu número da camisola
+        /// </summary>
         public int CompareTo(Jogador other)
         {
             if (other == null)

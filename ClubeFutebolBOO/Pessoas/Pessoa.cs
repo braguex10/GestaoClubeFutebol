@@ -11,6 +11,9 @@ using System;
 namespace ClubeFutebol.BOO.Pessoas
 {
     [Serializable]
+    /// <summary>
+    /// Classe abstrata que serve de base para "pessoas" ligadas a um clube como treinador e jogador
+    /// </summary>
     public abstract class Pessoa  //abstrata porque esta serve somente para ser uma base para jogador e treinador
     {
 
@@ -26,7 +29,7 @@ namespace ClubeFutebol.BOO.Pessoas
         #endregion
 
         #region Construtor
-
+        /// <summary>Construtor Vazio</summary>
         public Pessoa()                 // construtor default
         {
             nome = string.Empty;
@@ -36,7 +39,7 @@ namespace ClubeFutebol.BOO.Pessoas
             contacto = 0;
             numeroSocio = 0;
         }
-
+        /// <summary>Construtor Completo</summary>
         public Pessoa(string nome, byte idade, string nacionalidade, string genero, int numeroSocio, int contacto)  // construtor que cria o objeto(pessoa)
         {
             Nome = nome;

@@ -8,6 +8,9 @@
 
 namespace ClubeFutebol.Exceptions
 {
+    /// <summary>
+    /// Explicação de que o valor não é válido para a execução de um processo
+    /// </summary>
     public class ValorInvalidoException : DominioException
     {
         public ValorInvalidoException(string campo)

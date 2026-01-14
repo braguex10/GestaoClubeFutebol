@@ -12,6 +12,10 @@ using ClubeFutebol.BOO.Pessoas;
 namespace ClubeFutebol.BOO.ClubeEstrutura
 {
     [Serializable]
+    /// <summary>
+    /// Classe que representa a equipa ligada a um certo clube
+    /// Por exemplo equipa sénior, júnior, etc
+    /// </summary>
     public class Equipa
     {
         #region Atributos
@@ -24,7 +28,7 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
         #endregion
 
         #region Construtores 
-
+        /// <summary>Construtor Vazio</summary>
         public Equipa()         // construtor vazio, inicializa os atributos vazios
         {
             escalao = string.Empty;
@@ -32,7 +36,7 @@ namespace ClubeFutebol.BOO.ClubeEstrutura
             nomeClube = string.Empty;
             treinadorPrincipal = null;
         }
-
+        /// <summary>Construtor Completo</summary>
         public Equipa(string escalao, string liga, string nomeClube)
         {
             Escalao = escalao;

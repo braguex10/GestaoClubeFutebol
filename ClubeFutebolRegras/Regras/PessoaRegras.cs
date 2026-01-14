@@ -11,6 +11,9 @@ using ClubeFutebol.Dados.Interfaces;
 
 namespace ClubeFutebol.Regras
 {
+    /// <summary>
+    /// Camada de Dados responsável pela verificação de pessoa
+    /// </summary>
     public class RegrasPessoa
     {
         #region Atributos
@@ -29,7 +32,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Atualizar Pessoa
-
+        /// <summary>
+        /// Valida a atualização dos dados de pessoa
+        /// </summary>
         public bool AtualizarDadosPessoa(
             Pessoa pessoa,
             string nome,

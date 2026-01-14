@@ -13,6 +13,9 @@ using System.IO;
 
 namespace ClubeFutebol.Regras
 {
+    /// <summary>
+    /// Camada de Dados responsável pela validação de equipa
+    /// </summary>
     public class RegrasEquipa
     {
         #region Atributos
@@ -31,7 +34,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Criar / Remover Equipa
-
+        /// <summary>
+        /// Validação da criação de equipa
+        /// </summary>
         public bool CriarEquipa(Equipa equipa)
         {
             if (equipa == null)
@@ -49,7 +54,9 @@ namespace ClubeFutebol.Regras
 
             return equipaDados.CriarEquipa(equipa);
         }
-
+        /// <summary>
+        /// Validação da remoção de equipa
+        /// </summary>
         public bool RemoverEquipa(Equipa equipa)
         {
             if (equipaDados.ObterNumeroJogadores(equipa) > 0)
@@ -64,7 +71,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Jogadores
-
+        /// <summary>
+        /// Verfica se é possével adicionar jogador à equipa
+        /// </summary>
         public bool AdicionarJogador(Equipa equipa, Jogador jogador)
         {
             if (equipa == null || jogador == null)
@@ -84,7 +93,9 @@ namespace ClubeFutebol.Regras
 
             return equipaDados.AdicionarJogador(equipa, jogador);
         }
-
+        /// <summary>
+        /// Verifica se é possível remover jogador da equipa
+        /// </summary>
         public bool RemoverJogador(Equipa equipa, Jogador jogador)
         {
             if (equipa == null || jogador == null)
@@ -96,7 +107,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Treinador
-
+        /// <summary>
+        /// Valida a atribuição de um treinador
+        /// </summary>
         public bool AtribuirTreinador(Equipa equipa, Treinador treinador)
         {
             if (equipa == null || treinador == null)
@@ -107,7 +120,9 @@ namespace ClubeFutebol.Regras
 
             return equipaDados.AtribuirTreinador(equipa, treinador);
         }
-
+        /// <summary>
+        /// Verifica a remoção de um treinador
+        /// </summary>
         public bool RemoverTreinador(Equipa equipa)
         {
             if (equipa == null)
@@ -122,7 +137,9 @@ namespace ClubeFutebol.Regras
         #endregion
 
         #region Métodos Auxiliares (Regras)
-
+        /// <summary>
+        /// Obtém a idade máxima dos jogadores da equipa dependendo do esclão em questão
+        /// </summary>
         private int ObterIdadeMaximaEscalao(string escalao)
         {
             // Exemplo: "Sub-17" -> 17
@@ -137,7 +154,9 @@ namespace ClubeFutebol.Regras
         }
 
         #endregion
-
+        /// <summary>
+        /// Valida guardar equipa em ficheiro
+        /// </summary>
         public bool GuardarDados(string ficheiro)
         {
             if (string.IsNullOrWhiteSpace(ficheiro))
@@ -145,6 +164,9 @@ namespace ClubeFutebol.Regras
 
             return equipaDados.GuardarEquipas(ficheiro);
         }
+        /// <summary>
+        /// Valida a leitura de equipa em ficheiro
+        /// </summary>
         public bool LerDados(string ficheiro)
         {
             if (string.IsNullOrWhiteSpace(ficheiro))

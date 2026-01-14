@@ -21,7 +21,9 @@ namespace ClubeFutebol.Dados.Pessoas
 
         #endregion
 
-        // Atualização de dados básicos da Pessoa
+        /// <summary>
+        /// Atualiza os dados de uma pessoa
+        /// </summary>
         public bool AtualizarDadosPessoa(
             Pessoa pessoa,
             string nome,

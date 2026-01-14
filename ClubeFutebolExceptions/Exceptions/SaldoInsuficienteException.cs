@@ -8,6 +8,9 @@
 
 namespace ClubeFutebol.Exceptions
 {
+    /// <summary>
+    /// Explicação de que há saldo insuficiente para a execução de um processo
+    /// </summary>
     public class SaldoInsuficienteException : DominioException
     {
         public SaldoInsuficienteException()
