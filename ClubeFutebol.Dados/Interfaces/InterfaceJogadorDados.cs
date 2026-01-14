@@ -11,6 +11,9 @@ using System.Collections.Generic;
 
 namespace ClubeFutebol.Dados.Interfaces
 {
+    /// <summary>
+    /// Interface que define as operações de acesso a Jogadores
+    /// </summary>
     public interface InterfaceJogadorDados
     {
         // Criação do Jogador

@@ -12,6 +12,9 @@ using ClubeFutebol.BOO.Pessoas;
 
 namespace ClubeFutebol.Dados.Interfaces
 {
+    /// <summary>
+    /// Interface que define as operações de acesso a Equipa
+    /// </summary>
     public interface InterfaceEquipaDados
     {
         // Ciclo de vida da Equipa (no contexto dos jogadores)

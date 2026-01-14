@@ -11,6 +11,9 @@ using ClubeFutebol.BOO.ClubeEstrutura;
 
 namespace ClubeFutebol.Dados.Interfaces
 {
+    /// <summary>
+    /// Interface que define as operações de acesso a Clubes
+    /// </summary>
     public interface InterfaceClubeDados
     {
         // Clubes

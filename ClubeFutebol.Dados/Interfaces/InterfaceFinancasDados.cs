@@ -11,6 +11,9 @@ using ClubeFutebol.BOO.Pessoas;
 
 namespace ClubeFutebol.Dados.Interfaces
 {
+    /// <summary>
+    /// Interface que define as operações de acesso a Finanças
+    /// </summary>
     public interface InterfaceFinancasDados
     {
         #region Inicialização

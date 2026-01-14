@@ -11,6 +11,9 @@ using System.Collections.Generic;
 
 namespace ClubeFutebol.Dados.Interfaces
 {
+    /// <summary>
+    /// Interface que define as operações de acesso a Treinadores
+    /// </summary>
     public interface InterfaceTreinadorDados
     {
         // Criação do Treinador
